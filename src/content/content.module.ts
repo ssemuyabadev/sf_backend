@@ -1,0 +1,2 @@
+import { Module } from '@nestjs/common';import { ContentResolver } from './content.resolver';import { PrismaService } from '../prisma.service';import { MailService } from '../mail.service';import { AuthModule } from '../auth/auth.module';
+@Module({imports:[AuthModule],providers:[ContentResolver,PrismaService,MailService]})export class ContentModule{}

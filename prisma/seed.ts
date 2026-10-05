@@ -1,0 +1,5 @@
+import { PrismaClient } from '@prisma/client';
+import * as bcrypt from 'bcrypt';
+const prisma=new PrismaClient();
+async function main(){const email=process.env.ADMIN_EMAIL;const password=process.env.ADMIN_PASSWORD;if(!email||!password)throw new Error('ADMIN_EMAIL and ADMIN_PASSWORD must be set before seeding.');const passwordHash=await bcrypt.hash(password,12);await prisma.adminUser.upsert({where:{email},update:{passwordHash,name:'Foundation Administrator'},create:{email,passwordHash,name:'Foundation Administrator'}});await prisma.siteSettings.upsert({where:{id:1},update:{},create:{id:1,phone:'+256 705 283 679',secondaryPhone:'+256 789 395 815',email:'info@ssemuyabafoundation.org',location:'Naama Village, Mityana, Uganda'}});console.log('Admin account ready: '+email)}
+main().catch(e=>{console.error(e);process.exit(1)}).finally(()=>prisma.$disconnect());
