@@ -13,7 +13,7 @@ import { Args,Field,InputType,Int,Mutation,ObjectType,Query,Resolver } from '@ne
 @InputType()class ContactInput{@Field()name!:string;@Field({nullable:true})email?:string;@Field({nullable:true})phone?:string;@Field({nullable:true})subject?:string;@Field()message!:string}
 @InputType()class VolunteerInput{@Field()name!:string;@Field({nullable:true})email?:string;@Field()phone!:string;@Field()interest!:string;@Field({nullable:true})availability?:string;@Field({nullable:true})message?:string}
 @InputType()class SponsorInput{@Field()fullName!:string;@Field({nullable:true})email?:string;@Field()phone!:string;@Field({nullable:true})country?:string;@Field({nullable:true})city?:string;@Field({nullable:true})preferredContact?:string;@Field({nullable:true})sponsorshipPreference?:string;@Field({nullable:true})message?:string;@Field()consent!:boolean}
-@InputType()class GalleryInput{@Field()title!:string;@Field()imageUrl!:string;@Field()description?:string;@Field()category?:string;@Field({defaultValue:true})published!:boolean}
+@InputType()class GalleryInput{@Field()title!:string;@Field()imageUrl!:string;@Field({nullable:true})description?:string;@Field({nullable:true})category?:string;@Field({defaultValue:true})published!:boolean}
 @InputType()class NewsInput{@Field()title!:string;@Field()slug!:string;@Field()category!:string;@Field({nullable:true})excerpt?:string;@Field()body!:string;@Field({nullable:true})imageUrl?:string;@Field({defaultValue:false})published!:boolean}
 @Resolver()export class ContentResolver{constructor(private prisma:PrismaService,private mail:MailService){}
 @Query(()=>Settings)siteSettings(){return this.prisma.siteSettings.findUniqueOrThrow({where:{id:1}})}
