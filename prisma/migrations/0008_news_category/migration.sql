@@ -1,0 +1,1 @@
+ALTER TABLE "NewsPost" ADD COLUMN "category" TEXT NOT NULL DEFAULT 'Foundation Update';
