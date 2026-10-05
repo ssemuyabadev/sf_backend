@@ -18,6 +18,8 @@ enum ApplicationStatus {
   REVIEWING
   APPROVED
   DECLINED
+  REPLIED
+  ARCHIVED
 }
 
 enum NewsletterStatus {
@@ -79,7 +81,7 @@ model NewsletterSubscriber {
 model VolunteerApplication {
   id           String            @id @default(cuid())
   name         String
-  email        String
+  email        String?
   phone        String
   interest     String
   availability String?
