@@ -12,6 +12,12 @@ async function bootstrap(){
   });
 
   app.useGlobalPipes(new ValidationPipe({whitelist:true,transform:true}));
-  await app.listen(process.env.PORT||4000);
+
+  app.getHttpAdapter().get('/health',(_req:any,res:any)=>{
+    res.status(200).json({status:'ok'});
+  });
+
+  const port=Number(process.env.PORT)||4000;
+  await app.listen(port,'0.0.0.0');
 }
 bootstrap();
