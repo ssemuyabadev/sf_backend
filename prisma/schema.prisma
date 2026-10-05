@@ -40,6 +40,7 @@ model SiteSettings {
   x              String?
   linkedin       String?
   youtube        String?
+  whatsapp       String?
   updatedAt      DateTime @updatedAt
 }
 
