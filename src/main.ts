@@ -11,7 +11,7 @@ async function bootstrap(){
     allowedHeaders:['Content-Type','Authorization','Accept','Origin','X-Requested-With'],
   });
 
-  app.useGlobalPipes(new ValidationPipe({whitelist:true,transform:true}));
+  app.useGlobalPipes(new ValidationPipe({transform:true}));
 
   app.getHttpAdapter().get('/health',(_req:any,res:any)=>{
     res.status(200).json({status:'ok'});
