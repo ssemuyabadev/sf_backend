@@ -1,7 +1,9 @@
-import 'reflect-metadata';import { ValidationPipe } from '@nestjs/common';import { NestFactory } from '@nestjs/core';import * as cookieParser from 'cookie-parser';import { AppModule } from './app.module';
+import 'reflect-metadata';import { ValidationPipe } from '@nestjs/common';import { NestFactory } from '@nestjs/core';import * as cookieParser from 'cookie-parser';import { json,urlencoded } from 'express';import { AppModule } from './app.module';
 
 async function bootstrap(){
   const app=await NestFactory.create(AppModule);
+  app.use(json({limit:'25mb'}));
+  app.use(urlencoded({extended:true,limit:'25mb'}));
   app.use(cookieParser());
 
   app.enableCors({
