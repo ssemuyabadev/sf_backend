@@ -19,7 +19,7 @@ import { Args,Field,InputType,Int,Mutation,ObjectType,Query,Resolver } from '@ne
 @InputType()class NewsInput{@Field()title!:string;@Field()slug!:string;@Field()category!:string;@Field({nullable:true})excerpt?:string;@Field()body!:string;@Field({nullable:true})imageUrl?:string;@Field({defaultValue:false})published!:boolean}
 const MAX_CONTENT_IMAGE_BYTES=10*1024*1024;
 function validateContentImageBase64(contentBase64:string){const normalized=String(contentBase64||'').replace(/^data:[^,]+,/, '').replace(/\s/g,'');if(!normalized)throw new Error('Image data is required.');const size=Math.floor((normalized.length*3)/4)-(normalized.endsWith('==')?2:normalized.endsWith('=')?1:0);if(size>MAX_CONTENT_IMAGE_BYTES)throw new Error('Image file is too large. The maximum supported size is 10 MB.');return normalized;}
-const GITHUB_IMAGE_BASE=`https://raw.githubusercontent.com/${process.env.GITHUB_OWNER||"ssemuyabadev"}/${process.env.GITHUB_REPO||"sf_frontend"}/${process.env.GITHUB_BRANCH||"main"}/public/`;
+const GITHUB_IMAGE_BASE=`https://raw.githubusercontent.com/${process.env.GITHUB_OWNER||"ssemuyabadev"}/${process.env.GITHUB_REPO||"sf_frontend"}/${process.env.GITHUB_BRANCH||"main"}/`;
 function normalizeImageUrl(value?:string|null){
   if(!value)return value??undefined;
   let candidate=value.trim();
