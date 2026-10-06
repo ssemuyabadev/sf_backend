@@ -1,7 +1,7 @@
 import { PrismaClient } from '@prisma/client';
 import * as bcrypt from 'bcrypt';
 const prisma=new PrismaClient();
-const GITHUB_IMAGE_BASE=`https://raw.githubusercontent.com/${process.env.GITHUB_OWNER||'ssemuyabadev'}/${process.env.GITHUB_REPO||'sf_frontend'}/${process.env.GITHUB_BRANCH||'main'}/`;
+const GITHUB_IMAGE_BASE=`https://raw.githubusercontent.com/${process.env.GITHUB_OWNER||'ssemuyabadev'}/${process.env.GITHUB_REPO||'sf_frontend'}/${process.env.GITHUB_BRANCH||'main'}/public/`;
 function normalizeImageUrl(value:string|null|undefined){
   if(!value)return value??undefined;
   let candidate=value.trim();
