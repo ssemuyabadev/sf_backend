@@ -58,6 +58,14 @@ model SiteSettings {
   updatedAt      DateTime @updatedAt
 }
 
+model SiteStatistic {
+  key       String   @id
+  label     String
+  value     Int
+  suffix    String   @default("")
+  updatedAt DateTime @updatedAt
+}
+
 model DonationMethod {
   id          String   @id @default(cuid())
   key         String   @unique
