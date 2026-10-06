@@ -18,7 +18,25 @@ import { Args,Field,InputType,Int,Mutation,ObjectType,Query,Resolver } from '@ne
 @InputType()class GalleryInput{@Field()title!:string;@Field()imageUrl!:string;@Field({nullable:true})description?:string;@Field({nullable:true})category?:string;@Field({defaultValue:true})published!:boolean}
 @InputType()class NewsInput{@Field()title!:string;@Field()slug!:string;@Field()category!:string;@Field({nullable:true})excerpt?:string;@Field()body!:string;@Field({nullable:true})imageUrl?:string;@Field({defaultValue:false})published!:boolean}
 const GITHUB_IMAGE_BASE=`https://raw.githubusercontent.com/${process.env.GITHUB_OWNER||"ssemuyabadev"}/${process.env.GITHUB_REPO||"sf_frontend"}/${process.env.GITHUB_BRANCH||"main"}/`;
-function normalizeImageUrl(value?:string|null){if(!value)return value??undefined;if(value.startsWith("/images/"))return GITHUB_IMAGE_BASE+value.slice(1);return value;}
+function normalizeImageUrl(value?:string|null){
+  if(!value)return value??undefined;
+  let candidate=value.trim();
+  try{
+    if(candidate.includes('/_next/image?')){
+      const parsed=new URL(candidate);
+      const encoded=parsed.searchParams.get('url');
+      if(encoded) candidate=decodeURIComponent(encoded);
+    }
+  }catch{}
+  candidate=candidate.replace(/^https?:\/\/ssemuyabafoundation\.org\//,'/');
+  candidate=candidate.replace(/^https?:\/\/www\.ssemuyabafoundation\.org\//,'/');
+  candidate=candidate.replace(/^https?:\/\/raw\.githubusercontent\.com\/ssemuyabadev\/sf_frontend\/main\//,'');
+  candidate=candidate.replace(/^https?:\/\/github\.com\/ssemuyabadev\/sf_frontend\/blob\/main\//,'');
+  candidate=candidate.replace(/^\/+/,'');
+  candidate=candidate.replace(/^public\//,'');
+  if(candidate.startsWith('images/')) return GITHUB_IMAGE_BASE+candidate;
+  return value;
+}
 @Resolver()export class ContentResolver{constructor(private prisma:PrismaService,private mail:MailService){}
 @Query(()=>Settings)siteSettings(){return this.prisma.siteSettings.findUniqueOrThrow({where:{id:1}})}
 @Query(()=>[Gallery])async gallery(@Args('publishedOnly',{nullable:true,defaultValue:true})publishedOnly:boolean){const items=await this.prisma.galleryItem.findMany({where:publishedOnly?{published:true}:undefined,orderBy:{createdAt:'desc'}});return items.map(item=>({...item,imageUrl:normalizeImageUrl(item.imageUrl)}));}
