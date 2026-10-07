@@ -35,7 +35,7 @@ function normalizeImageUrl(value?:string|null){
   candidate=candidate.replace(/^https?:\/\/raw\.githubusercontent\.com\/ssemuyabadev\/sf_frontend\/main\//,'');
   candidate=candidate.replace(/^https?:\/\/github\.com\/ssemuyabadev\/sf_frontend\/blob\/main\//,'');
   candidate=candidate.replace(/^\/+/,'');
-  candidate=candidate.replace(/^public\//,'');
+  candidate=candidate.replace(/^(?:public\/)+/,'');
   if(candidate.startsWith('images/')) return GITHUB_IMAGE_BASE+candidate;
   return value;
 }
